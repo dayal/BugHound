@@ -17,7 +17,8 @@ CREATE TABLE program (
     name VARCHAR(100) NOT NULL,
     rel INT NOT NULL,
     version INT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT unique_program UNIQUE (name, rel, version)
 );
 
 CREATE TABLE area (
@@ -34,15 +35,16 @@ CREATE TABLE employee (
     password VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
     is_admin BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (username)
 );
 
 CREATE TABLE bug_report (
     id INT NOT NULL AUTO_INCREMENT,
     program_id INT NOT NULL,
     reported_by_id INT NOT NULL,
-    assigned_to_id INT,
-    resolved_by_id INT,
+    assigned_to_id INT NULL,
+    resolved_by_id INT NULL,
     report_type VARCHAR(100) NOT NULL,
     severity VARCHAR(100) NOT NULL,
     status VARCHAR(100),

@@ -1,0 +1,19 @@
+h1 {
+    margin: 30px 0;
+}
+
+.form-inline.add-form {
+    margin: 60px 0 40px;
+}
+
+.form-inline {
+    margin: 20px 0;
+}
+
+.form-inline .form-group {
+    margin-right: 20px;
+}
+
+.form-inline label {
+    margin-right: 20px;
+}
