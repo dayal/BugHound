@@ -18,17 +18,24 @@
     <h1>Export Data</h1>
     
     <h4>
-        <a href="#">Export Program Table</a>
+        <a href="exportProgram.php">Export Program Table</a>
+    </h4>
+    
+    <h4>
+        <a href="exportArea.php">Export Area Table</a>
     </h4>
 
     <h4>
-        <a href="#">Export Employee Table</a>
+        <a href="exportEmployee.php">Export Employee Table</a>
     </h4>
 
     <h4>
-        <a href="#">Export Bug Report Table</a>
+        <a href="exportBugReport.php">Export Bug Report Table</a>
     </h4>
 
 </div>
 </body>
 </html>
+
+
+

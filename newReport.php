@@ -14,9 +14,9 @@
 
 <div class="container">
   <h1>New Bug Report</h1>
-  <form action="saveReport.php" class="form-horizontal" method="POST">
+  <form action="saveReport.php" class="form-horizontal" method="POST" enctype="multipart/form-data">
     <div class="form-group">
-      <label class="col-sm-2 control-label">Program</label>
+      <label class="col-sm-2 control-label">Program<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="programId" id="program-select" required>
             <option disabled selected value>Select a program</option>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Report Type</label>
+      <label class="col-sm-2 control-label">Report Type<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="reportType" id="report-type" required>
             <option>Coding Error</option>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Severity</label>
+      <label class="col-sm-2 control-label">Severity<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="severity" id="severity" required>
             <option>Minor</option>
@@ -59,14 +59,14 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Problem Summary</label>
+      <label class="col-sm-2 control-label">Problem Summary<span class="required-field">*</span></label>
       <div class="col-sm-10">
-          <textarea class="form-control" name="summary" rows="1" required pattern="\S+"></textarea>
+          <textarea class="form-control" id="summary" name="summary" rows="1" required></textarea>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Reproducible?</label>
+      <label class="col-sm-2 control-label">Reproducible?<span class="required-field">*</span></label>
       <div class="col-sm-10">
           <input type="hidden" name="reproducible" value="0"/>
           <input type="checkbox" style="margin-top:11px" name="reproducible" value="1"/>
@@ -74,21 +74,21 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Problem</label>
+      <label class="col-sm-2 control-label">Problem<span class="required-field">*</span></label>
       <div class="col-sm-10">
-          <textarea class="form-control" name="problem" rows="5" required pattern="\S+"></textarea>
+          <textarea class="form-control" id="problem" name="problem" rows="5" required></textarea>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-2 control-label">Suggested Fix</label>
       <div class="col-sm-10">
-          <textarea class="form-control" name="suggestedFix" rows="5" required pattern="\S+"></textarea>
+          <textarea class="form-control" name="suggestedFix" rows="5"></textarea>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Reported By</label>
+      <label class="col-sm-2 control-label">Reported By<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="reportedById" id="reported-by" required>
           <?php
@@ -105,7 +105,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Report Date</label>
+      <label class="col-sm-2 control-label">Report Date<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <input class="form-control" type="date" name="reportDate" required/>
       </div>
@@ -227,6 +227,13 @@
     </div>
 
     <div class="form-group">
+      <label class="col-sm-2 control-label">Attachment</label>
+      <div class="col-sm-4">
+          <input type="file" name="attachment"/>
+      </div>
+    </div>
+
+    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Submit</button>
         <input type="reset" class="btn btn-default"/>
@@ -245,10 +252,22 @@
     });
 
     <?php
-        if (!empty($_GET['program_id'])) {
-          echo "$('#program-select').val(" . $_GET['program_id'] .")";
-        }
+      if (!empty($_GET['program_id'])) {
+        echo "$('#program-select').val(" . $_GET['program_id'] .")";
+      }
     ?>
-  }); 
+  });
+
+  $("form").submit(function(event) {
+    if ($("#problem").val().replace(/\s/g, '') == "") {
+      alert("Problem field is required.");
+      event.preventDefault();
+    }
+
+    if ($("#summary").val().replace(/\s/g, '') == "") {
+      alert("Problem Summary field is required.");
+      event.preventDefault();
+    }
+  });
 </script>
 </html>

@@ -1,9 +1,6 @@
 <?php
    error_reporting(0);
    include('session.php');
-   if (!$_SESSION['isAdmin']) {
-       header("location:login.php");         
-   }
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +23,11 @@
         <?php
             $db = mysql_connect("localhost", "root");
             mysql_select_db("bug_hound", $db);
-            $sql = "SELECT id, report_date, area FROM bug_report WHERE program_id = '$_POST[programId]' AND";
+            $sql = "SELECT id, report_date, area FROM bug_report WHERE";
+
+            if (!empty($_POST['programId'])) {
+                $sql = $sql . " program_id = '" . $_POST['programId'] . "' AND";
+            }
 
             if (!empty($_POST['reportType'])) {
                 $sql = $sql . " report_type = '" . $_POST['reportType'] . "' AND";

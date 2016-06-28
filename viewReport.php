@@ -1,9 +1,6 @@
 <?php
    error_reporting(0);
    include('session.php');
-   if (!$_SESSION['isAdmin']) {
-       header("location:login.php");         
-   }
 ?>
 
 <!DOCTYPE html>
@@ -16,10 +13,10 @@
 <body>
 
 <div class="container">
-  <h1>New Bug Report</h1>
+  <h1>View Bug Report</h1>
   <form action="updateReport.php" class="form-horizontal" method="POST">
     <div class="form-group">
-      <label class="col-sm-2 control-label">Program</label>
+      <label class="col-sm-2 control-label">Program<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="programId" id="program-select" required disabled>
             <?php
@@ -36,7 +33,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Report Type</label>
+      <label class="col-sm-2 control-label">Report Type<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="reportType" id="report-type" required>
             <option>Coding Error</option>
@@ -50,7 +47,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Severity</label>
+      <label class="col-sm-2 control-label">Severity<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="severity" id="severity" required>
             <option>Minor</option>
@@ -61,14 +58,14 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Problem Summary</label>
+      <label class="col-sm-2 control-label">Problem Summary<span class="required-field">*</span></label>
       <div class="col-sm-10">
           <textarea class="form-control" name="summary" rows="1" id="summary" required></textarea>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Reproducible?</label>
+      <label class="col-sm-2 control-label">Reproducible?<span class="required-field">*</span></label>
       <div class="col-sm-10">
           <input type="hidden" name="reproducible" value="0"/>
           <input type="checkbox" style="margin-top:11px" name="reproducible" id="reproducible" value="1"/>
@@ -76,7 +73,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Problem</label>
+      <label class="col-sm-2 control-label">Problem<span class="required-field">*</span></label>
       <div class="col-sm-10">
           <textarea class="form-control" name="problem" rows="5" id="problem" required></textarea>
       </div>
@@ -85,12 +82,12 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Suggested Fix</label>
       <div class="col-sm-10">
-          <textarea class="form-control" name="suggestedFix" rows="5" id="suggested-fix" required></textarea>
+          <textarea class="form-control" name="suggestedFix" rows="5" id="suggested-fix"></textarea>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Reported By</label>
+      <label class="col-sm-2 control-label">Reported By<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <select class="form-control" name="reportedById" id="reported-by" required disabled>
           <?php
@@ -107,7 +104,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Report Date</label>
+      <label class="col-sm-2 control-label">Report Date<span class="required-field">*</span></label>
       <div class="col-sm-4">
           <input class="form-control" type="date" name="reportDate" id="report-date" required disabled/>
       </div>
@@ -229,6 +226,23 @@
     </div>
 
     <div class="form-group">
+      <label class="col-sm-2 control-label">Attachment</label>
+      <div class="col-sm-4">
+          <?php
+            $dir = "uploads/" . $_GET[report_id] . "/";
+            if ($dh = opendir($dir)) {
+              while (($file = readdir($dh)) !== false) {
+                if ($file != "." && $file != "..") {
+                  echo "<a href='" . $dir . $file . "' download>Download Attachment</a>";
+                }
+              }
+              closedir($dh);
+            }
+          ?>
+      </div>
+    </div>
+
+    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Submit</button>
         <a href="searchReport.php" class="btn btn-default">Cancel</a>
@@ -259,12 +273,24 @@
           echo "$('#summary').val('" . $row[9] ."');\n";
           echo "$('#problem').val('" . $row[10] ."');\n";
           echo "$('#suggested-fix').val('" . $row[11] ."');\n";
-          echo "$('#comments').val(" . $row[12] .");\n";
+          echo "$('#comments').val('" . $row[12] ."');\n";
           echo "$('#resolution-version').val('" . $row[13] ."');\n";
           echo "$('#functional-area').val('" . $row[14] ."');\n";
           echo "$('#reproducible').val(" . $row[15] .");\n";
       }
     ?>
-  }); 
+  });
+
+  $("form").submit(function(event) {
+    if ($("#problem").val().replace(/\s/g, '') == "") {
+      alert("Problem field is required.");
+      event.preventDefault();
+    }
+
+    if ($("#summary").val().replace(/\s/g, '') == "") {
+      alert("Problem Summary field is required.");
+      event.preventDefault();
+    }
+  });
 </script>
 </html>

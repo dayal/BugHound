@@ -18,9 +18,11 @@
         <a href="newReport.php">New Bug Report</a>
     </h4>
 
+    <h4>
+        <a href="searchReport.php">Search For Existing Bug Report</a>
+    </h4>
     <?php
         if ($_SESSION['isAdmin']) {
-            echo "<h4><a href=\"searchReport.php\">Search For Existing Bug Report</a></h4>\n";
             echo "<h4><a href=\"databaseMaintenance.php\">Database Maintenance</a></h4>\n";
         }
     ?>

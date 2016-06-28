@@ -1,9 +1,6 @@
 <?php
    error_reporting(0);
    include('session.php');
-   if (!$_SESSION['isAdmin']) {
-       header("location:login.php");         
-   }
 ?>
 
 <?php

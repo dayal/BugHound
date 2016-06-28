@@ -17,3 +17,7 @@ h1 {
 .form-inline label {
     margin-right: 20px;
 }
+
+.required-field {
+    color: red;
+}

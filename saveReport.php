@@ -10,5 +10,12 @@
     $result = mysql_query($sql);
     echo mysql_error($db) . "\n";
 
+    $last_id = mysql_insert_id($db);
+    if(isset($_FILES['attachment'])) {
+        if ( !is_dir("uploads/" . $last_id . "/")) {
+            mkdir("uploads/" . $last_id . "/");
+        }
+        move_uploaded_file($_FILES['attachment']['tmp_name'], "uploads/" . $last_id . "/" . $_FILES['attachment']['name']);
+    }
     include 'index.php';
 ?>

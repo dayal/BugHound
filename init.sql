@@ -26,7 +26,8 @@ CREATE TABLE area (
     program_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (program_id) REFERENCES program (id)
+    FOREIGN KEY (program_id) REFERENCES program (id),
+    CONSTRAINT unique_program UNIQUE (name)
 );
 
 CREATE TABLE employee (

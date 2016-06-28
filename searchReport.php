@@ -1,9 +1,6 @@
 <?php
    error_reporting(0);
    include('session.php');
-   if (!$_SESSION['isAdmin']) {
-       header("location:login.php");         
-   }
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +18,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Program</label>
       <div class="col-sm-4">
-          <select class="form-control" name="programId" id="program-select" required>
+          <select class="form-control" name="programId" id="program-select">
             <option disabled selected value>Select a program</option>
             <?php
                 $db = mysql_connect("localhost", "root");
@@ -180,6 +177,7 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Search</button>
+        <a href="#" class="btn btn-default" onClick="resetFields();">Reset<a>
         <a href="index.php" class="btn btn-default">Cancel</a>
       </div>
     </div>
@@ -189,16 +187,9 @@
 </body>
 
 <script>
-  $("#report-type").prop("selectedIndex", -1);
-  $("#severity").prop("selectedIndex", -1);
-  $("#functional-area").prop("selectedIndex", -1);
-  $("#assigned-to").prop("selectedIndex", -1);
-  $("#status").prop("selectedIndex", -1);
-  $("#priority").prop("selectedIndex", -1);
-  $("#resolution").prop("selectedIndex", -1);
-  $("#reported-by").prop("selectedIndex", -1);
-  $("#resolved-by").prop("selectedIndex", -1);
+
   $(document).ready(function(){
+    resetFields();
     $('#program-select').change(function() {
       window.location = "searchReport.php?program_id=" + $(this).val();
     });
@@ -208,6 +199,18 @@
           echo "$('#program-select').val(" . $_GET['program_id'] .")";
         }
     ?>
-  }); 
+  });
+
+  function resetFields() {
+    $("#report-type").prop("selectedIndex", -1);
+    $("#severity").prop("selectedIndex", -1);
+    $("#functional-area").prop("selectedIndex", -1);
+    $("#assigned-to").prop("selectedIndex", -1);
+    $("#status").prop("selectedIndex", -1);
+    $("#priority").prop("selectedIndex", -1);
+    $("#resolution").prop("selectedIndex", -1);
+    $("#reported-by").prop("selectedIndex", -1);
+    $("#resolved-by").prop("selectedIndex", -1);
+  };
 </script>
 </html>
